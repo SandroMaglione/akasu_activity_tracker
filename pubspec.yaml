@@ -11,11 +11,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+  go_router: ^13.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  go_router_builder: ^2.4.1
+  build_runner: ^2.4.8
 
 flutter:
   uses-material-design: true
