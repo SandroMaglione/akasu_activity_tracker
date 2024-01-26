@@ -16,6 +16,11 @@ dependencies:
   json_annotation: ^4.8.1
   fpdart: ^1.1.0
   fast_immutable_collections: ^10.0.0
+  drift: ^2.15.0
+  sqlite3_flutter_libs: ^0.5.19+1
+  sqlite3: ^2.3.0
+  path_provider: ^2.1.2
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +32,7 @@ dev_dependencies:
   go_router_builder: ^2.4.1
   freezed: ^2.4.6
   json_serializable: ^6.7.1
+  drift_dev: ^2.15.0
 
 flutter:
   uses-material-design: true

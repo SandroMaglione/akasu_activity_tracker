@@ -1,17 +1,32 @@
+import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fpdart/fpdart.dart';
 
-abstract interface class Database {
-  List<ActivityModel> get allActivities;
+sealed class ApiError {
+  const ApiError();
 }
 
-sealed class ApiError {}
+class QueryError extends ApiError {
+  final Object error;
+  final StackTrace stackTrace;
+  const QueryError(this.error, this.stackTrace);
+}
 
 final allActivities =
     ReaderTaskEither<Database, ApiError, IList<ActivityModel>>.Do(
   (_) async {
     final db = await _(ReaderTaskEither.ask());
-    return db.allActivities.toIList();
+
+    final data = await _(
+      ReaderTaskEither.fromTaskEither(
+        TaskEither.tryCatch(
+          () => db.select(db.activity).get(),
+          QueryError.new,
+        ),
+      ),
+    );
+
+    return data.toIList();
   },
 );
