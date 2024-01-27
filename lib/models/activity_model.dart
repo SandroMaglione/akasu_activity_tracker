@@ -7,7 +7,7 @@ part 'activity_model.g.dart';
 class ActivityModel with _$ActivityModel {
   const factory ActivityModel({
     required String name,
-    required String emojy,
+    required String emoji,
   }) = _ActivityModel;
 
   factory ActivityModel.fromJson(Map<String, Object?> json) =>

@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:akasu_activity_tracker/api_error.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
@@ -14,7 +16,7 @@ part 'database.g.dart';
 class Activity extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
-  TextColumn get emojy => text()();
+  TextColumn get emoji => text()();
 }
 
 @DriftDatabase(tables: [Activity])
@@ -23,6 +25,12 @@ class Database extends _$Database {
 
   @override
   int get schemaVersion => 1;
+
+  TaskEither<ApiError, Res> query<Res>(Future<Res> Function() execute) =>
+      TaskEither.tryCatch(
+        () => execute(),
+        QueryError.new,
+      );
 }
 
 LazyDatabase _openConnection() => LazyDatabase(
