@@ -4,6 +4,7 @@ import 'package:akasu_activity_tracker/api_error.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -27,10 +28,12 @@ class Database extends _$Database {
   int get schemaVersion => 1;
 
   TaskEither<ApiError, Res> query<Res>(Future<Res> Function() execute) =>
-      TaskEither.tryCatch(
-        () => execute(),
-        QueryError.new,
-      );
+      TaskEither.tryCatch(execute, QueryError.new);
+
+  Stream<IList<ActivityModel>> get watchActivities =>
+      select(activity).watch().map(
+            (list) => list.toIList(),
+          );
 }
 
 LazyDatabase _openConnection() => LazyDatabase(
