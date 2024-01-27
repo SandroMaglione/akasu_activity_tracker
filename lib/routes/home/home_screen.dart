@@ -4,7 +4,6 @@ import 'package:akasu_activity_tracker/routes/home/activity_card.dart';
 import 'package:akasu_activity_tracker/routes/home/insert_activity_form.dart';
 import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,18 +17,16 @@ class HomeScreen extends StatelessWidget {
             children: [
               const Text('Home'),
               const InsertActivityForm(),
-              Watch(
-                (context) => StreamListener(
-                  getIt.get<Database>().watchActivities,
-                  builder: (context, data) => Column(
-                    children: data
-                        .map(
-                          (activity) => ActivityCard(
-                            activity: activity,
-                          ),
-                        )
-                        .toList(),
-                  ),
+              StreamListener(
+                getIt.get<Database>().watchActivities,
+                builder: (context, data) => Column(
+                  children: data
+                      .map(
+                        (activity) => ActivityCard(
+                          activity: activity,
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],

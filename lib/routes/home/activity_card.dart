@@ -5,7 +5,6 @@ import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:akasu_activity_tracker/routes/home/event_card.dart';
 import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals_flutter.dart';
 
 class ActivityCard extends StatelessWidget {
   final ActivityModel activity;
@@ -31,20 +30,18 @@ class ActivityCard extends StatelessWidget {
               ),
             ],
           ),
-          Watch(
-            (context) => StreamListener(
-              getIt<Database>().watchEvents(activity),
-              builder: (context, data) => Column(
-                children: data
-                    .map(
-                      (eventWithActivity) => EventCard(
-                        eventWithActivity: eventWithActivity,
-                      ),
-                    )
-                    .toList(),
-              ),
+          StreamListener(
+            getIt<Database>().watchEvents(activity),
+            builder: (context, data) => Column(
+              children: data
+                  .map(
+                    (eventWithActivity) => EventCard(
+                      eventWithActivity: eventWithActivity,
+                    ),
+                  )
+                  .toList(),
             ),
-          )
+          ),
         ],
       ),
     );
