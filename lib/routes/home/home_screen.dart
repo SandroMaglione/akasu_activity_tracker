@@ -2,6 +2,7 @@ import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:akasu_activity_tracker/routes/home/insert_activity_form.dart';
+import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
@@ -22,33 +23,24 @@ class HomeScreen extends StatelessWidget {
             const Text('Home'),
             const InsertActivityForm(),
             Watch(
-              (context) => StreamBuilder(
-                stream: allActivitiesSignal.toStream(),
-                builder: (context, snapshot) =>
-                    switch ((snapshot.connectionState, snapshot.data)) {
-                  (ConnectionState.none, _) =>
-                    const CircularProgressIndicator(),
-                  (ConnectionState.waiting, _) =>
-                    const CircularProgressIndicator(),
-                  (ConnectionState.done, _) => const Text("Completed"),
-                  (ConnectionState.active, null) =>
-                    const Text("Error: Missing data"),
-                  (ConnectionState.active, final state?) => switch (state) {
-                      AsyncLoading<IList<ActivityModel>>() =>
-                        const Text("Loading..."),
-                      AsyncError<IList<ActivityModel>>() =>
-                        const Text("Stream error"),
-                      AsyncData<IList<ActivityModel>>(value: final data) =>
-                        data == null
-                            ? const Text("Null")
-                            : Column(
-                                children: data
-                                    .map(
-                                      (activity) => Text(activity.name),
-                                    )
-                                    .toList(),
-                              ),
-                    }
+              (context) => StreamListener(
+                allActivitiesSignal.toStream(),
+                builder: (context, data) => switch (data) {
+                  AsyncLoading<IList<ActivityModel>>() =>
+                    const Text("Loading..."),
+                  AsyncError<IList<ActivityModel>>(error: final error) =>
+                    Text("Steam error: $error"),
+                  AsyncData<IList<ActivityModel>>(value: final value) =>
+                    switch (value) {
+                      null => const Text("Missing data"),
+                      final list => Column(
+                          children: list
+                              .map(
+                                (activity) => Text(activity.name),
+                              )
+                              .toList(),
+                        )
+                    },
                 },
               ),
             ),
