@@ -6,6 +6,7 @@ part 'event_model.g.dart';
 @freezed
 class EventModel with _$EventModel {
   const factory EventModel({
+    required int id,
     required int activityId,
     required DateTime createdAt,
   }) = _EventModel;

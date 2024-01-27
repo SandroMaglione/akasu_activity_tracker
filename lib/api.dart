@@ -65,3 +65,24 @@ ReaderTaskEither<Database, ApiError, int> addEvent({
         );
       },
     );
+
+ReaderTaskEither<Database, ApiError, int> deleteEvent({
+  required int eventId,
+}) =>
+    ReaderTaskEither.Do(
+      (_) async {
+        final db = await _(ReaderTaskEither.ask());
+
+        return _(
+          ReaderTaskEither.fromTaskEither(
+            db.query(
+              (db.delete(db.event)
+                    ..where(
+                      (table) => table.id.equals(eventId),
+                    ))
+                  .go,
+            ),
+          ),
+        );
+      },
+    );
