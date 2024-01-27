@@ -1,5 +1,6 @@
 import 'package:akasu_activity_tracker/api.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
+import 'package:akasu_activity_tracker/routes/home/insert_activity_form.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -19,6 +20,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const Text('Home'),
+            const InsertActivityForm(),
             Watch(
               (context) => FutureBuilder(
                 future: allActivitiesSignal.future,

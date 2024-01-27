@@ -23,6 +23,7 @@ dependencies:
   path: ^1.8.3
   get_it: ^7.6.7
   signals: ^3.0.0
+  flutter_hooks: ^0.20.4
 
 dev_dependencies:
   flutter_test:
