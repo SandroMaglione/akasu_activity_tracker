@@ -1,6 +1,7 @@
 import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
+import 'package:akasu_activity_tracker/routes/home/activity_card.dart';
 import 'package:akasu_activity_tracker/routes/home/insert_activity_form.dart';
 import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -36,7 +37,9 @@ class HomeScreen extends StatelessWidget {
                       final list => Column(
                           children: list
                               .map(
-                                (activity) => Text(activity.name),
+                                (activity) => ActivityCard(
+                                  activity: activity,
+                                ),
                               )
                               .toList(),
                         )

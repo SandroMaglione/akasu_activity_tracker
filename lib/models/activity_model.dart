@@ -6,6 +6,7 @@ part 'activity_model.g.dart';
 @freezed
 class ActivityModel with _$ActivityModel {
   const factory ActivityModel({
+    required int id,
     required String name,
     required String emoji,
   }) = _ActivityModel;

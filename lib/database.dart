@@ -44,24 +44,28 @@ class Database extends _$Database {
             (list) => list.toIList(),
           );
 
-  Stream<IList<EventWithActivityModel>> get watchEvents => select(event)
-      .join([
+  Stream<IList<EventWithActivityModel>> watchEvents(
+          ActivityModel activityModel) =>
+      ((select(event)).join([
         leftOuterJoin(
           activity,
           activity.id.equalsExp(event.activityId),
         ),
       ])
-      .watch()
-      .map(
-        (rows) => rows
-            .map(
-              (row) => EventWithActivityModel(
-                activity: row.readTable(activity),
-                event: row.readTable(event),
-              ),
-            )
-            .toIList(),
-      );
+            ..where(
+              activity.id.equals(activityModel.id),
+            ))
+          .watch()
+          .map(
+            (rows) => rows
+                .map(
+                  (row) => EventWithActivityModel(
+                    activity: row.readTable(activity),
+                    event: row.readTable(event),
+                  ),
+                )
+                .toIList(),
+          );
 }
 
 LazyDatabase _openConnection() => LazyDatabase(

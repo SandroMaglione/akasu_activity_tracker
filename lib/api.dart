@@ -43,3 +43,25 @@ ReaderTaskEither<Database, ApiError, int> addActivity({
         );
       },
     );
+
+ReaderTaskEither<Database, ApiError, int> addEvent({
+  required int activityId,
+}) =>
+    ReaderTaskEither.Do(
+      (_) async {
+        final db = await _(ReaderTaskEither.ask());
+
+        return _(
+          ReaderTaskEither.fromTaskEither(
+            db.query(
+              () => db.into(db.event).insert(
+                    EventCompanion.insert(
+                      activityId: activityId,
+                      createdAt: DateTime.now(),
+                    ),
+                  ),
+            ),
+          ),
+        );
+      },
+    );
