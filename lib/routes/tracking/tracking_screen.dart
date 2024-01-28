@@ -1,5 +1,5 @@
 import 'package:akasu_activity_tracker/get_it.dart';
-import 'package:akasu_activity_tracker/routes/tracking/day_signal.dart';
+import 'package:akasu_activity_tracker/routes/tracking/day_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -15,16 +15,16 @@ class TrackingScreen extends StatelessWidget {
             Row(
               children: [
                 IconButton.outlined(
-                  onPressed: getIt.get<DaySignal>().previousDay,
+                  onPressed: getIt.get<DayController>().previousDay,
                   icon: const Icon(Icons.arrow_circle_left_outlined),
                 ),
                 Watch(
                   (_) => Text(
-                    getIt.get<DaySignal>().currentDay.value,
+                    getIt.get<DayController>().day,
                   ),
                 ),
                 IconButton.outlined(
-                  onPressed: getIt.get<DaySignal>().nextDay,
+                  onPressed: getIt.get<DayController>().nextDay,
                   icon: const Icon(Icons.arrow_circle_right_outlined),
                 ),
               ],
