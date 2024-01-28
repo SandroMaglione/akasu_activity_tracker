@@ -1,3 +1,4 @@
+import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'event_model.freezed.dart';
@@ -8,7 +9,7 @@ class EventModel with _$EventModel {
   const factory EventModel({
     required int id,
     required int activityId,
-    required DateTime createdAt,
+    required Day createdAt,
   }) = _EventModel;
 
   factory EventModel.fromJson(Map<String, Object?> json) =>

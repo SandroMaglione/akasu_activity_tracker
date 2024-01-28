@@ -4,6 +4,7 @@ import 'package:akasu_activity_tracker/api_error.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:akasu_activity_tracker/models/event_model.dart';
 import 'package:akasu_activity_tracker/models/event_with_activity_model.dart';
+import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -26,7 +27,7 @@ class Activity extends Table {
 class Event extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get activityId => integer().references(Activity, #id)();
-  DateTimeColumn get createdAt => dateTime()();
+  TextColumn get createdAt => text().map(DayConverter())();
 }
 
 @DriftDatabase(tables: [Activity, Event])
@@ -45,7 +46,8 @@ class Database extends _$Database {
           );
 
   Stream<IList<EventWithActivityModel>> watchEvents(
-          ActivityModel activityModel) =>
+    ActivityModel activityModel,
+  ) =>
       ((select(event)).join([
         leftOuterJoin(
           activity,

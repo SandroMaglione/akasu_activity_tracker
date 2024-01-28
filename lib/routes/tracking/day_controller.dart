@@ -1,18 +1,19 @@
+import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:signals/signals.dart';
 
 abstract class DayController {
   const DayController();
 
-  String get day;
+  Day get day;
   void previousDay();
   void nextDay();
 }
 
 class DaySignal implements DayController {
   final _currentDayTime = signal(DateTime.now());
-  late final _currentDay = computed(() {
+  late final _currentDay = computed<Day>(() {
     final dateTime = _currentDayTime();
-    return "${dateTime.day} ${dateTime.month}";
+    return (day: dateTime.day, month: dateTime.month, year: dateTime.year);
   });
 
   @override
@@ -26,5 +27,5 @@ class DaySignal implements DayController {
       );
 
   @override
-  String get day => _currentDay.value;
+  Day get day => _currentDay.value;
 }

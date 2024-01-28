@@ -14,7 +14,7 @@ class EventCard extends StatelessWidget {
         Column(
           children: [
             Text(eventWithActivity.activity.emoji),
-            Text(eventWithActivity.event.createdAt.toIso8601String()),
+            Text(eventWithActivity.event.createdAt.day.toString()),
           ],
         ),
         ElevatedButton.icon(
