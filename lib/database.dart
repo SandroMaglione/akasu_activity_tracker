@@ -69,7 +69,7 @@ class Database extends _$Database {
                 .toIList(),
           );
 
-  Stream<int> watchEventsInDay({
+  Stream<IList<EventModel>> watchEventsInDay({
     required ActivityModel activityModel,
     required Day day,
   }) =>
@@ -85,7 +85,7 @@ class Database extends _$Database {
               ),
             ))
           .watch()
-          .map((list) => list.length);
+          .map((list) => list.toIList());
 }
 
 LazyDatabase _openConnection() => LazyDatabase(

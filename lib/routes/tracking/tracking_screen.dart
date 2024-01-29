@@ -46,7 +46,7 @@ class TrackingScreen extends StatelessWidget {
                       .map(
                         (activity) => Watch(
                           (_) => CheckActivity(
-                            activity: activity,
+                            activityModel: activity,
                             day: getIt.get<DayController>().day,
                           ),
                         ),
