@@ -1,5 +1,7 @@
 import 'package:akasu_activity_tracker/api.dart';
+import 'package:akasu_activity_tracker/emoji.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
+import 'package:akasu_activity_tracker/routes/home/emoji_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -9,19 +11,37 @@ class InsertActivityForm extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final editingName = useTextEditingController();
-    final editingEmoji = useTextEditingController();
+    final editingEmoji = useState<Emoji>(const Dart());
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
           controller: editingName,
         ),
-        TextField(
-          controller: editingEmoji,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            EmojiButton(
+              selected: editingEmoji.value,
+              emoji: const Smile(),
+              onPressed: (emoji) => editingEmoji.value = emoji,
+            ),
+            EmojiButton(
+              selected: editingEmoji.value,
+              emoji: const Rocket(),
+              onPressed: (emoji) => editingEmoji.value = emoji,
+            ),
+            EmojiButton(
+              selected: editingEmoji.value,
+              emoji: const Dart(),
+              onPressed: (emoji) => editingEmoji.value = emoji,
+            ),
+          ],
         ),
         ElevatedButton(
           onPressed: () => onPressed(
             context,
-            emoji: editingEmoji.text,
+            emoji: editingEmoji.value,
             name: editingName.text,
           ),
           child: const Text("Insert"),
@@ -33,7 +53,7 @@ class InsertActivityForm extends HookWidget {
   Future<void> onPressed(
     BuildContext context, {
     required String name,
-    required String emoji,
+    required Emoji emoji,
   }) =>
       addActivity(name: name, emoji: emoji).match<void>(
         (left) {

@@ -12,21 +12,31 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
           child: Column(
             children: [
-              const Text('Home'),
               const InsertActivityForm(),
-              StreamListener(
-                getIt.get<Database>().watchActivities,
-                builder: (context, data) => Column(
-                  children: data
-                      .map(
-                        (activity) => ActivityCard(
-                          activity: activity,
+              const SizedBox(height: 24),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      StreamListener(
+                        getIt.get<Database>().watchActivities,
+                        builder: (context, data) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: data
+                              .map(
+                                (activity) => ActivityCard(
+                                  activity: activity,
+                                ),
+                              )
+                              .toList(),
                         ),
-                      )
-                      .toList(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

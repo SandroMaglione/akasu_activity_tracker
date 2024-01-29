@@ -8,15 +8,20 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          Column(
-            children: [
-              Text(activity.name),
-              Text(activity.emoji),
-            ],
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(
+              activity.name,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            Text(
+              activity.emoji.toString(),
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ],
+        ),
       ),
     );
   }

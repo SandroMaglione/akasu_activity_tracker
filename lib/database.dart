@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:akasu_activity_tracker/api_error.dart';
+import 'package:akasu_activity_tracker/emoji.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:akasu_activity_tracker/models/event_model.dart';
-import 'package:akasu_activity_tracker/models/event_with_activity_model.dart';
 import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
@@ -20,7 +20,7 @@ part 'database.g.dart';
 class Activity extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
-  TextColumn get emoji => text()();
+  TextColumn get emoji => text().map(EmojiConverter())();
 }
 
 @UseRowClass(EventModel)
@@ -43,30 +43,6 @@ class Database extends _$Database {
   Stream<IList<ActivityModel>> get watchActivities =>
       select(activity).watch().map(
             (list) => list.toIList(),
-          );
-
-  Stream<IList<EventWithActivityModel>> watchEvents(
-    ActivityModel activityModel,
-  ) =>
-      ((select(event)).join([
-        leftOuterJoin(
-          activity,
-          activity.id.equalsExp(event.activityId),
-        ),
-      ])
-            ..where(
-              activity.id.equals(activityModel.id),
-            ))
-          .watch()
-          .map(
-            (rows) => rows
-                .map(
-                  (row) => EventWithActivityModel(
-                    activity: row.readTable(activity),
-                    event: row.readTable(event),
-                  ),
-                )
-                .toIList(),
           );
 
   Stream<IList<EventModel>> watchEventsInDay({

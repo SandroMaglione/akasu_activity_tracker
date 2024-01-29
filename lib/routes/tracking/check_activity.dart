@@ -27,8 +27,10 @@ class CheckActivity extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Text(activityModel.emoji),
-                  Text(activityModel.name),
+                  Text(
+                    activityModel.emoji.toString(),
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
                 ],
               ),
             ),
