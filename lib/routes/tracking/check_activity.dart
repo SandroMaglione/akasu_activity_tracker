@@ -20,39 +20,55 @@ class CheckActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          Text(activityModel.name),
-          Text(activityModel.emoji),
-          Watch(
-            (_) => StreamListener(
-              getIt.get<Database>().watchEventsInDay(
-                    day: day,
-                    activityModel: activityModel,
-                  ),
-              builder: (context, list) => Column(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
                 children: [
-                  Text(
-                    list.length.toString(),
-                  ),
-                  Row(
-                    children: [
-                      if (list.firstOrNull != null)
-                        IconButton.outlined(
-                          onPressed: () => onDelete(context, list.first),
-                          icon: const Icon(Icons.remove),
-                        ),
-                      IconButton.outlined(
-                        onPressed: () => onAdd(context),
-                        icon: const Icon(Icons.add),
-                      )
-                    ],
-                  )
+                  Text(activityModel.emoji),
+                  Text(activityModel.name),
                 ],
               ),
             ),
-          ),
-        ],
+            Watch(
+              (_) => StreamListener(
+                getIt.get<Database>().watchEventsInDay(
+                      day: day,
+                      activityModel: activityModel,
+                    ),
+                builder: (context, list) => Column(
+                  children: [
+                    Text(
+                      list.length.toString(),
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: IconButton.outlined(
+                            onPressed: () => list.firstOrNull == null
+                                ? null
+                                : onDelete(context, list.first),
+                            icon: const Icon(Icons.remove),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: IconButton.outlined(
+                            onPressed: () => onAdd(context),
+                            icon: const Icon(Icons.add),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
