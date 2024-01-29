@@ -1,9 +1,9 @@
 import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
-import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
 import 'package:akasu_activity_tracker/routes/router.dart';
 import 'package:akasu_activity_tracker/routes/tracking/check_activity.dart';
 import 'package:akasu_activity_tracker/routes/tracking/day_controller.dart';
+import 'package:akasu_activity_tracker/stream_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 

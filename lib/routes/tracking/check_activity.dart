@@ -3,7 +3,7 @@ import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:akasu_activity_tracker/models/event_model.dart';
-import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
+import 'package:akasu_activity_tracker/stream_listener.dart';
 import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
@@ -77,30 +77,30 @@ class CheckActivity extends StatelessWidget {
 
   Future<void> onAdd(BuildContext context) =>
       addEvent(activityId: activityModel.id, day: day).match<void>(
-        (left) {
+        (apiError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                  "Error while adding new event for ${activityModel.name}: $left"),
+                  "Error while adding new event for ${activityModel.name}: $apiError"),
             ),
           );
         },
-        (right) {
-          print(right);
+        (id) {
+          print(id);
         },
       ).run(getIt.get());
 
   Future<void> onDelete(BuildContext context, EventModel eventModel) =>
       deleteEvent(eventId: eventModel.id).match<void>(
-        (left) {
+        (apiError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Error while deleting event: $left"),
+              content: Text("Error while deleting event: $apiError"),
             ),
           );
         },
-        (right) {
-          print(right);
+        (id) {
+          print(id);
         },
       ).run(getIt.get());
 }

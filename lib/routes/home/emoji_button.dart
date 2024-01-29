@@ -19,7 +19,8 @@ class EmojiButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: MaterialStatePropertyAll(selected == emoji ? 3 : 0.5),
         textStyle: MaterialStatePropertyAll(
-            Theme.of(context).textTheme.headlineMedium),
+          Theme.of(context).textTheme.headlineMedium,
+        ),
       ),
       child: Text(emoji.toString()),
     );

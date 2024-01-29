@@ -56,15 +56,15 @@ class InsertActivityForm extends HookWidget {
     required Emoji emoji,
   }) =>
       addActivity(name: name, emoji: emoji).match<void>(
-        (left) {
+        (apiError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Error while adding new activity: $left"),
+              content: Text("Error while adding new activity: $apiError"),
             ),
           );
         },
-        (right) {
-          print(right);
+        (id) {
+          print(id);
         },
       ).run(getIt.get());
 }
