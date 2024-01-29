@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:akasu_activity_tracker/api_error.dart';
 import 'package:akasu_activity_tracker/emoji.dart';
+import 'package:akasu_activity_tracker/extensions.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
 import 'package:akasu_activity_tracker/models/event_model.dart';
 import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -40,12 +40,9 @@ class Database extends _$Database {
   TaskEither<ApiError, Res> query<Res>(Future<Res> Function() execute) =>
       TaskEither.tryCatch(execute, QueryError.new);
 
-  Stream<IList<ActivityModel>> get watchActivities =>
-      select(activity).watch().map(
-            (list) => list.toIList(),
-          );
+  Stream<List<ActivityModel>> get watchActivities => select(activity).watch();
 
-  Stream<IList<EventModel>> watchEventsInDay({
+  Stream<List<EventModel>> watchEventsInDay({
     required ActivityModel activityModel,
     required Day day,
   }) =>
@@ -57,11 +54,10 @@ class Database extends _$Database {
             )
             ..where(
               (table) => table.createdAt.equals(
-                DayConverter().toSql(day),
+                day.toSql,
               ),
             ))
-          .watch()
-          .map((list) => list.toIList());
+          .watch();
 }
 
 LazyDatabase _openConnection() => LazyDatabase(

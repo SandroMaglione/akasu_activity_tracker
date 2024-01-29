@@ -1,13 +1,17 @@
 import 'package:akasu_activity_tracker/typedefs.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
-part 'event_model.freezed.dart';
+class EventModel extends Equatable {
+  final int id;
+  final int activityId;
+  final Day createdAt;
 
-@freezed
-class EventModel with _$EventModel {
-  const factory EventModel({
-    required int id,
-    required int activityId,
-    required Day createdAt,
-  }) = _EventModel;
+  const EventModel({
+    required this.id,
+    required this.activityId,
+    required this.createdAt,
+  });
+
+  @override
+  List<Object?> get props => [id, activityId, createdAt];
 }

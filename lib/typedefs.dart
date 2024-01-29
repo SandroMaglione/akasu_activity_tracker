@@ -1,3 +1,4 @@
+import 'package:akasu_activity_tracker/extensions.dart';
 import 'package:drift/drift.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -29,5 +30,5 @@ class DayConverter extends TypeConverter<Day, String> {
       );
 
   @override
-  String toSql(Day value) => "${value.day}/${value.month}/${value.year}";
+  String toSql(Day value) => value.toSql;
 }

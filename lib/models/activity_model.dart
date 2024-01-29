@@ -1,13 +1,17 @@
 import 'package:akasu_activity_tracker/emoji.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
-part 'activity_model.freezed.dart';
+class ActivityModel extends Equatable {
+  final int id;
+  final String name;
+  final Emoji emoji;
 
-@freezed
-class ActivityModel with _$ActivityModel {
-  const factory ActivityModel({
-    required int id,
-    required String name,
-    required Emoji emoji,
-  }) = _ActivityModel;
+  const ActivityModel({
+    required this.id,
+    required this.name,
+    required this.emoji,
+  });
+
+  @override
+  List<Object?> get props => [id, name, emoji];
 }
