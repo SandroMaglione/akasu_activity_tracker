@@ -11,7 +11,7 @@ class InsertActivityForm extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final editingName = useTextEditingController();
-    final editingEmoji = useState<Emoji>(const Dart());
+    final editingEmoji = useState(Emoji.dart);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -20,23 +20,15 @@ class InsertActivityForm extends HookWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            EmojiButton(
-              selected: editingEmoji.value,
-              emoji: const Smile(),
-              onPressed: (emoji) => editingEmoji.value = emoji,
-            ),
-            EmojiButton(
-              selected: editingEmoji.value,
-              emoji: const Rocket(),
-              onPressed: (emoji) => editingEmoji.value = emoji,
-            ),
-            EmojiButton(
-              selected: editingEmoji.value,
-              emoji: const Dart(),
-              onPressed: (emoji) => editingEmoji.value = emoji,
-            ),
-          ],
+          children: Emoji.values
+              .map(
+                (emoji) => EmojiButton(
+                  selected: editingEmoji.value,
+                  emoji: emoji,
+                  onPressed: (emoji) => editingEmoji.value = emoji,
+                ),
+              )
+              .toList(),
         ),
         ElevatedButton(
           onPressed: () => onPressed(

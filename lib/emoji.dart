@@ -1,41 +1,24 @@
 import 'package:drift/drift.dart';
 
-sealed class Emoji {
-  const Emoji();
-}
+enum Emoji {
+  smile,
+  rocket,
+  dart;
 
-class Smile extends Emoji {
-  const Smile();
   @override
-  String toString() {
-    return "😁";
-  }
-}
-
-class Rocket extends Emoji {
-  const Rocket();
-  @override
-  String toString() {
-    return "🚀";
-  }
-}
-
-class Dart extends Emoji {
-  const Dart();
-  @override
-  String toString() {
-    return "🎯";
-  }
+  String toString() => switch (this) {
+        Emoji.smile => "😁",
+        Emoji.rocket => "🚀",
+        Emoji.dart => "🎯",
+      };
 }
 
 class EmojiConverter extends TypeConverter<Emoji, String> {
   @override
-  Emoji fromSql(String fromDb) => switch (fromDb) {
-        "😁" => const Smile(),
-        "🚀" => const Rocket(),
-        "🎯" => const Dart(),
-        _ => const Dart(),
-      };
+  Emoji fromSql(String fromDb) => Emoji.values.firstWhere(
+        (emoji) => emoji.toString() == fromDb,
+        orElse: () => Emoji.dart,
+      );
 
   @override
   String toSql(Emoji value) => value.toString();
