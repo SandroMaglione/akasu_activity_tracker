@@ -1,7 +1,6 @@
 import 'package:akasu_activity_tracker/api_error.dart';
 import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
-import 'package:akasu_activity_tracker/models/event_model.dart';
 import 'package:akasu_activity_tracker/typedefs.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fpdart/fpdart.dart';
@@ -48,13 +47,11 @@ ReaderTaskEither<Database, ApiError, int> addActivity({
 
 ReaderTaskEither<Database, ApiError, int> addEvent({
   required int activityId,
+  required Day day,
 }) =>
     ReaderTaskEither.Do(
       (_) async {
         final db = await _(ReaderTaskEither.ask());
-        final dateTime = await _(
-          ReaderTaskEither.fromIO(dateNow),
-        );
 
         return _(
           ReaderTaskEither.fromTaskEither(
@@ -62,11 +59,7 @@ ReaderTaskEither<Database, ApiError, int> addEvent({
               () => db.into(db.event).insert(
                     EventCompanion.insert(
                       activityId: activityId,
-                      createdAt: (
-                        day: dateTime.day,
-                        month: dateTime.month,
-                        year: dateTime.year
-                      ),
+                      createdAt: day,
                     ),
                   ),
             ),
@@ -93,36 +86,5 @@ ReaderTaskEither<Database, ApiError, int> deleteEvent({
             ),
           ),
         );
-      },
-    );
-
-ReaderTaskEither<Database, ApiError, IList<EventModel>> getEventsInDay({
-  required Day day,
-  required ActivityModel activityModel,
-}) =>
-    ReaderTaskEither.Do(
-      (_) async {
-        final db = await _(ReaderTaskEither.ask());
-
-        final list = await _(
-          ReaderTaskEither.fromTaskEither(
-            db.query(
-              (db.select(db.event)
-                    ..where(
-                      (table) => table.activityId.equals(
-                        activityModel.id,
-                      ),
-                    )
-                    ..where(
-                      (table) => table.createdAt.equals(
-                        DayConverter().toSql(day),
-                      ),
-                    ))
-                  .get,
-            ),
-          ),
-        );
-
-        return list.toIList();
       },
     );

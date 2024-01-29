@@ -1,4 +1,3 @@
-import 'package:akasu_activity_tracker/api.dart';
 import 'package:akasu_activity_tracker/database.dart';
 import 'package:akasu_activity_tracker/get_it.dart';
 import 'package:akasu_activity_tracker/models/activity_model.dart';
@@ -15,19 +14,10 @@ class ActivityCard extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          Row(
+          Column(
             children: [
-              Column(
-                children: [
-                  Text(activity.name),
-                  Text(activity.emoji),
-                ],
-              ),
-              ElevatedButton.icon(
-                onPressed: () => onPressed(context),
-                icon: const Icon(Icons.check),
-                label: const Text("Check"),
-              ),
+              Text(activity.name),
+              Text(activity.emoji),
             ],
           ),
           StreamListener(
@@ -46,19 +36,4 @@ class ActivityCard extends StatelessWidget {
       ),
     );
   }
-
-  Future<void> onPressed(BuildContext context) =>
-      addEvent(activityId: activity.id).match<void>(
-        (left) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  "Error while adding new event for ${activity.name}: $left"),
-            ),
-          );
-        },
-        (right) {
-          print(right);
-        },
-      ).run(getIt.get());
 }

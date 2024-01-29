@@ -68,6 +68,24 @@ class Database extends _$Database {
                 )
                 .toIList(),
           );
+
+  Stream<int> watchEventsInDay({
+    required ActivityModel activityModel,
+    required Day day,
+  }) =>
+      (select(event)
+            ..where(
+              (table) => table.activityId.equals(
+                activityModel.id,
+              ),
+            )
+            ..where(
+              (table) => table.createdAt.equals(
+                DayConverter().toSql(day),
+              ),
+            ))
+          .watch()
+          .map((list) => list.length);
 }
 
 LazyDatabase _openConnection() => LazyDatabase(
