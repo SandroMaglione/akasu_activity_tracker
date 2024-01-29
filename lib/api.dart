@@ -112,6 +112,11 @@ ReaderTaskEither<Database, ApiError, IList<EventModel>> getEventsInDay({
                       (table) => table.activityId.equals(
                         activityModel.id,
                       ),
+                    )
+                    ..where(
+                      (table) => table.createdAt.equals(
+                        DayConverter().toSql(day),
+                      ),
                     ))
                   .get,
             ),

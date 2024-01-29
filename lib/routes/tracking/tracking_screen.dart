@@ -6,9 +6,9 @@ import 'package:akasu_activity_tracker/models/event_model.dart';
 import 'package:akasu_activity_tracker/routes/home/stream_listener.dart';
 import 'package:akasu_activity_tracker/routes/router.dart';
 import 'package:akasu_activity_tracker/routes/tracking/day_controller.dart';
-import 'package:fast_immutable_collections/src/ilist/ilist.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:signals/signals_flutter.dart';
 
 class TrackingScreen extends StatelessWidget {
@@ -56,9 +56,9 @@ class TrackingScreen extends StatelessWidget {
                               Watch(
                                 (_) => FutureBuilder(
                                   future: getEventsInDay(
-                                          day: getIt.get<DayController>().day,
-                                          activityModel: activity)
-                                      .run(
+                                    day: getIt.get<DayController>().day,
+                                    activityModel: activity,
+                                  ).run(
                                     getIt.get<Database>(),
                                   ),
                                   builder: (context, snapshot) =>

@@ -3,10 +3,6 @@ import 'package:fpdart/fpdart.dart';
 
 typedef Day = ({int day, int month, int year});
 
-extension on Day {
-  String get toSql => "$day/$month/$year";
-}
-
 class DayConverter extends TypeConverter<Day, String> {
   @override
   Day fromSql(String fromDb) => Option<Day>.Do((_) {
@@ -33,5 +29,5 @@ class DayConverter extends TypeConverter<Day, String> {
       );
 
   @override
-  String toSql(Day value) => value.toSql;
+  String toSql(Day value) => "${value.day}/${value.month}/${value.year}";
 }
