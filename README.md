@@ -18,5 +18,14 @@ This project is part of my weekly newsletter at [**sandromaglione.com**](https:/
 </a>
 
 ## Project structure
+The implementation is all inside the [`lib`](./lib/) folder:
+- [`models`](./lib/models/): Data models
+- [`routes`](./lib/routes/): Routing configuration. Each nested folder contains a screen of the app and all its related widgets
+- All other files are contained directly inside `lib`
 
-**Read all the details of the implementation in the full article** 🔜
+**Read all the details of the implementation in the full article** 👇
+
+
+<a href="https://www.sandromaglione.com/articles/how-to-build-a-complete-flutter-app-step-by-step-example?ref=Github&utm_medium=newsletter_project&utm_term=flutter">
+    <img alt="Read the full article on my website" src="https://www.sandromaglione.com/api/image?title=How%20to%20build%20a%20complete%20Flutter%20app:%20step%20by%20step%20example&publishedAt=2024-01-31" target="_blank" /> 
+</a>
